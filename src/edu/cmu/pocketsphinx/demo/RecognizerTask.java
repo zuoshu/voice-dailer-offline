@@ -173,8 +173,8 @@ public class RecognizerTask implements Runnable {
 		 * called
 		 */
 		c.setString("-hmm", MyApplication.getContext().getFilesDir()+"/tdt_sc_8k");
-		c.setString("-dict", MyApplication.getContext().getFilesDir()+"/names.dic");
-		c.setString("-lm", MyApplication.getContext().getFilesDir()+"/names.lm");
+		c.setString("-dict", MyApplication.getContext().getFilesDir()+"/words.dic");
+		c.setString("-lm", MyApplication.getContext().getFilesDir()+"/words.lm");
 		c.setFloat("-samprate", 8000.0);
 		c.setInt("-maxhmmpf", 2000);
 		c.setInt("-maxwpf", 10);

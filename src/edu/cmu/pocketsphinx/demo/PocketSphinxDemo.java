@@ -19,8 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.localrecognize.FileInfoActivity;
-import com.example.localrecognize.FileManager;
 import com.example.localrecognize.R;
+import com.oneguy.recognize.ContactManager;
+import com.oneguy.recognize.ContactManagerImpl;
 import com.oneguy.recognize.RecognizeFileManager;
 import com.oneguy.recognize.RecognizeFileManagerImpl;
 
@@ -79,6 +80,7 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 	private RecognizeFileManager mRecognizeFileManager;
 	private TextView info;
 	private EditText inputName;
+	private ContactManager mContactManager;
 
 	public boolean onTouch(View v, MotionEvent event) {
 		switch (event.getAction()) {
@@ -112,7 +114,9 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		mRecognizeFileManager = new RecognizeFileManagerImpl(this);
-		mRecognizeFileManager.initializeWithTestData();
+//		mRecognizeFileManager.initializeWithTestData();
+		mContactManager = new ContactManagerImpl(this);
+		initWithContacts();
 		info = (TextView) findViewById(R.id.info);
 		inputName = (EditText) findViewById(R.id.inputName);
 		updateListInfo();
@@ -185,8 +189,21 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 				PocketSphinxDemo.this.startActivity(i);
 			}
 		});
+
+		Button initContacts = (Button) findViewById(R.id.initContacts);
+		initContacts.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				initWithContacts();
+			}
+		});
 	}
 
+	private void initWithContacts(){
+		List<String> contacts = mContactManager.readContact();
+		mRecognizeFileManager.initialize(contacts);
+	}
 	private void showExitTip() {
 		Toast.makeText(PocketSphinxDemo.this, "重启程序生效", Toast.LENGTH_SHORT)
 				.show();
