@@ -6,14 +6,19 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.TextView;
 
+import com.oneguy.recognize.RecognizeFileManager;
+import com.oneguy.recognize.RecognizeFileManagerImpl;
+
 public class FileInfoActivity extends Activity {
 
 	private TextView mInfoView;
+	private RecognizeFileManager mRecognizeFileManager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_file);
+		mRecognizeFileManager = new RecognizeFileManagerImpl(this);
 		Intent from = getIntent();
 		if (from == null) {
 			return;
@@ -24,16 +29,15 @@ public class FileInfoActivity extends Activity {
 	}
 
 	private void updateFileInfo(String file) {
-		String completeFilename;
+		String fileContent;
 		if (file.equals("dic")) {
-			completeFilename = getFilesDir() + "/names.dic";
+			fileContent = mRecognizeFileManager.getDic();
 		} else if (file.equals("lm")) {
-			completeFilename = getFilesDir() + "/names.lm";
+			fileContent = mRecognizeFileManager.getLm();
 		} else {
-			completeFilename = getFilesDir() + "/names.txt";
+			fileContent = mRecognizeFileManager.getWordsInLineString();
+
 		}
-		String fileContent = FileManager.getInstance(this).readFileContent(
-				completeFilename);
 		if (!TextUtils.isEmpty(fileContent)) {
 			mInfoView.setText(fileContent);
 		}

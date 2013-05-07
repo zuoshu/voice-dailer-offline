@@ -97,7 +97,7 @@ men m en
 fen f en
 den d en
 nen n en
-eng eng
+eng es eng
 beng b eng
 peng p eng
 meng m eng
@@ -191,9 +191,9 @@ zu z u
 cu c u
 su s u
 zhu zh u
-ju j u
-qu q u
-xu x u
+ju j ux
+qu q ux
+xu x ux
 gai g ai
 kai k ai
 hai h ai
@@ -291,9 +291,9 @@ zhui zh ui
 gun g un
 kun k un
 hun h un
-jun j un
-qun q un
-xun x un
+jun j uxn
+qun q uxn
+xun x uxn
 zun z un
 cun c un
 sun s un
@@ -309,9 +309,9 @@ zhuai zh uai
 guan g uan
 kuan k uan
 huan h uan
-juan j uan
-quan q uan
-xuan x uan
+juan j uxan
+quan q uxan
+xuan x uxan
 zuan z uan
 cuan c uan
 suan s uan
@@ -406,3 +406,4 @@ chuo ch uo
 shuo sh uo
 ruo r uo
 yue uxs uxe
+nv n ux

@@ -57,7 +57,7 @@ public class FileManager {
 		}
 	}
 
-	public void alwaysInitFile() {
+	public void initFile() {
 		mNameList = DEFAULT_LIST;
 		writeList(mNameList);
 	}
@@ -67,8 +67,7 @@ public class FileManager {
 		if (list != null && list.size() != 0) {
 			return;
 		}
-		mNameList = DEFAULT_LIST;
-		writeList(mNameList);
+		initFile();
 	}
 
 	private void writeList(List<String> list) {

@@ -7,6 +7,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,8 @@ import android.widget.Toast;
 import com.example.localrecognize.FileInfoActivity;
 import com.example.localrecognize.FileManager;
 import com.example.localrecognize.R;
+import com.oneguy.recognize.RecognizeFileManager;
+import com.oneguy.recognize.RecognizeFileManagerImpl;
 
 public class PocketSphinxDemo extends Activity implements OnTouchListener,
 		RecognitionListener {
@@ -72,7 +75,8 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 	 *            Event that was triggered.
 	 */
 
-	private FileManager fileManager;
+	// private FileManager fileManager;
+	private RecognizeFileManager mRecognizeFileManager;
 	private TextView info;
 	private EditText inputName;
 
@@ -107,12 +111,10 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		fileManager = FileManager.getInstance(this);
+		mRecognizeFileManager = new RecognizeFileManagerImpl(this);
+		mRecognizeFileManager.initializeWithTestData();
 		info = (TextView) findViewById(R.id.info);
 		inputName = (EditText) findViewById(R.id.inputName);
-		fileManager.alwaysInitFile();
-		fileManager.copyHmmFiles();
-		generateLmAndDic();
 		updateListInfo();
 
 		this.rec = new RecognizerTask();
@@ -130,8 +132,8 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 
 			@Override
 			public void onClick(View v) {
-				addNameToList();
-				generateLmAndDic();
+				String word = inputName.getText().toString();
+				mRecognizeFileManager.addWord(word);
 				updateListInfo();
 				showExitTip();
 			}
@@ -142,8 +144,7 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 		reset.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				fileManager.resetListDefault();
-				generateLmAndDic();
+				mRecognizeFileManager.initializeWithTestData();
 				updateListInfo();
 				showExitTip();
 			}
@@ -230,25 +231,10 @@ public class PocketSphinxDemo extends Activity implements OnTouchListener,
 		});
 	}
 
-	private void generateLmAndDic() {
-		fileManager.generateLmAndDic();
-	}
-
-	private void addNameToList() {
-		String name = inputName.getText().toString().trim();
-		fileManager.appendLine(name);
-	}
-
 	private void updateListInfo() {
-		List<String> list = fileManager.readDicList();
-		StringBuilder sb = new StringBuilder();
-		if (list == null || list.size() == 0) {
-			return;
+		String dic = mRecognizeFileManager.getDic();
+		if (!TextUtils.isEmpty(dic)) {
+			info.setText(dic);
 		}
-		for (String s : list) {
-			sb.append(s);
-			sb.append("\n");
-		}
-		info.setText(sb.toString());
 	}
 }
